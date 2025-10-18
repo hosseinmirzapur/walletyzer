@@ -1,137 +1,51 @@
-# Walletyzer — Solana Wallet Activity Dashboard
+# Walletyzer — Simple Solana Wallet Dashboard
 
-A fast, privacy-aware dashboard that surfaces wallet activity (transactions, token moves, NFT events, memos, program interactions) with real-time alerts & timelines, searchable/filterable history, and aggregated analytics.
+A clean, beginner-friendly dashboard for viewing your Solana wallet contents and basic information. Built with Anchor and Next.js for learning purposes.
 
-## Product Goal
+## Project Overview
 
-Build a comprehensive Solana wallet activity dashboard with:
-- **Real-time alerts & timelines**
-- **Searchable / filterable history**
-- **Aggregated analytics** (spend patterns, counterparties, token flows)
-- **Light on-chain program integration** (Anchor IDLs)
-- **Single-user free tier + premium analytics & alerts**
+This is a **beginner to intermediate level** Solana project that focuses on:
+- **Read-only wallet dashboard** - View your tokens, NFTs, and balance
+- **No transactions** - Just display what's in your wallet
+- **Simple, clean UI** - Easy to understand and navigate
+- **Educational focus** - Learn Anchor + frontend integration
 
-**Success Metrics**: Reliable real-time updates, 99.9% uptime for core data pipeline, 1000 weekly active users within first 3 months, 3-5% conversion to paid tier.
+Perfect for developers wanting to learn Solana development without complex backend infrastructure.
+
+## Features
+
+### ✅ Current Features
+- **Wallet Connection** - Connect your Solana wallet (Phantom, Solflare, etc.)
+- **Balance Display** - View your SOL balance
+- **Token Portfolio** - See all SPL tokens in your wallet
+- **NFT Gallery** - Display NFTs with metadata
+- **Account Overview** - Basic wallet information and stats
+- **Responsive Design** - Works on desktop and mobile
+
+### 🚀 Future Enhancements (Optional)
+- Token price information
+- Portfolio value tracking
+- Simple filtering and search
+- Export wallet summary
 
 ## Technology Stack
 
 - **Frontend**: Next.js + TypeScript + Tailwind CSS
-- **Blockchain**: Anchor framework for on-chain workspace
-- **Data & Real-time**: Helius for transaction parsing, websockets, and webhooks
-- **Backend**: Serverless functions (Vercel/Cloud Run/Render)
-- **Database**: Postgres (Supabase/Neon) + Redis for caching
-- **Authentication**: Solana Wallet Adapter
+- **Blockchain**: Anchor framework
+- **Wallet Integration**: Solana Wallet Adapter
+- **Styling**: Tailwind CSS components
+- **No Backend Required** - Pure frontend + blockchain
 
-## Roadmap Overview
-
-### Phase 0 — Decide & Prepare (2-4 days)
-**Status**: In Progress
-
-**Deliverables**:
-- [x] Product spec (one-pager): target users, top 6 features, pricing model
-- [x] Choose template: `web3js-next-tailwind` (full scaffold + Anchor)
-- [ ] Create accounts: Helius, GitHub, Vercel, Phantom/Backpack for dev
-
-### Phase 1 — Architecture & Data Design (1 week)
-**Status**: Pending
-
-**Deliverables**:
-- [ ] System diagram: frontend ↔ backend ↔ Helius (websockets/webhooks) ↔ DB (Postgres) ↔ cache (Redis) ↔ Anchor localnet
-- [ ] Data model: wallets table, tracked_addresses, events (tx, token_transfer, nft_event), user_settings, alerts
-- [ ] API contract: endpoints for search, history, aggregates, alerts
-
-**Key Decisions**:
-- Real-time ingestion: Helius websockets/webhooks for streaming parsed txs
-- Storage: Postgres for history + Redis for hot caching & rate limits
-
-### Phase 2 — MVP Feature Priority (2-3 days)
-**Status**: Pending
-
-**MVP Features** (in order):
-1. [ ] Wallet connect + view (Solana Wallet Adapter)
-2. [ ] Historical transaction feed (last 90 days) using Helius Enhanced Transactions
-3. [ ] Real-time timeline (websocket/webhook-driven)
-4. [ ] Simple analytics: total inflow/outflow, top counterparties, token balances
-5. [ ] Alerts: basic email/push for large moves or new NFT mints
-6. [ ] Export CSV, shareable permalink for wallet reports
-
-### Phase 3 — DevOps & Infrastructure (3-5 days)
-**Status**: Pending
-
-**Setup**:
-- [ ] Frontend host: Vercel for Next.js
-- [ ] Backend: Serverless functions for endpoints
-- [ ] Ingestion: Helius webhooks (preferred over persistent websockets)
-- [ ] Database: Postgres + Redis (managed)
-- [ ] CI/CD: GitHub Actions for tests, linting, deployment
-- [ ] Secrets management: Vercel env vars
-
-### Phase 4 — QA, Testing & On-chain Simulation (2 weeks)
-**Status**: Pending
-
-**Testing Checklist**:
-- [ ] Unit tests for backend parsing/normalization
-- [ ] Integration tests simulating Helius webhook payloads
-- [ ] Localnet Anchor tests for on-chain program interactions
-- [ ] Load tests for API traffic and webhook bursts
-- [ ] Security review: API keys, rate limits, CORS
-
-### Phase 5 — Private Beta (2-4 weeks)
-**Status**: Pending
-
-**Beta Launch**:
-- [ ] Invite 50-200 power users (Discords, Solana Twitter/X, Hackers)
-- [ ] Collect qualitative feedback on confusion points and missing analytics
-- [ ] Track: DAU, API calls per user, median latency, error rate
-
-### Phase 6 — Polish & Public Launch (2-4 weeks)
-**Status**: Pending
-
-**Final Polish**:
-- [ ] UX improvements: onboarding flows, tooltips, mobile responsiveness
-- [ ] Payment flow integration (Stripe)
-- [ ] Premium features: advanced alerts, longer history, CSV exports
-- [ ] Landing page with clear CTAs and pricing
-- [ ] Public launch across X/Twitter, Reddit r/solana, Solana Discords
-
-### Phase 7 — Scale & Product Expansion (Ongoing)
-**Status**: Pending
-
-**Future Features**:
-- [ ] Watchlists & portfolio-style dashboards
-- [ ] Cross-wallet aggregation (group wallets)
-- [ ] Program/event insights (token minting clusters)
-- [ ] Deeper NFT analysis
-- [ ] Team features / multi-seat orgs / API access
-
-## Key Metrics & KPIs
-
-**Reliability & Performance**:
-- Webhook processing success rate > 99.5%
-- Event → UI latency < 2s for realtime events
-- 99.9% uptime for core data pipeline
-
-**User Engagement**:
-- DAU/MAU tracking
-- Average session length
-- 7-day retention rate
-
-**Business Metrics**:
-- Trial→paid conversion: 3-7%
-- Cost efficiency: $ per 1k users in Helius credits/infrastructure
-
-## Immediate Next Steps
-
-**Priority Actions** (Complete Today):
-1. [ ] Create Helius account and obtain API key
-2. [ ] Set up project repository structure
-3. [ ] Draft detailed one-page product specification
-4. [ ] Create system architecture diagram
-5. [ ] Schedule 2 weeks of focused development time
-
-## Development Setup
+## Getting Started
 
 ### Prerequisites
+- Basic knowledge of React/Next.js
+- A Solana wallet (Phantom recommended)
+- Node.js and pnpm installed
+
+### Installation
+
+1. **Clone and setup**:
 ```bash
 # Install dependencies
 pnpm install
@@ -142,48 +56,111 @@ pnpm anchor keys sync
 pnpm anchor-build
 ```
 
-### Development Commands
+2. **Start development**:
 ```bash
-# Start local development
+# Start the Next.js app
 pnpm dev
 
-# Run tests
-pnpm anchor-test
-
-# Deploy to devnet
-pnpm anchor deploy --provider.cluster devnet
-
-# Build for production
-pnpm build
-```
-
-### Local Development
-```bash
-# Start Anchor localnet with program deployed
+# In another terminal, start Anchor localnet (optional)
 pnpm anchor-localnet
 ```
 
-## External References
+3. **Open your browser**:
+Navigate to `http://localhost:3000` and connect your wallet!
 
-- **[Helius Enhanced Transactions API](https://www.helius.dev/docs/enhanced-transactions)** - Transaction parsing and real-time data
-- **[Helius Websockets](https://www.helius.dev/docs/api-reference/rpc/websocket-methods)** - Real-time streaming
-- **[Solana Wallet Adapter](https://solana.com/developers/courses/intro-to-solana/interact-with-wallets)** - Wallet integration
-- **[Vercel Next.js Guide](https://vercel.com/docs/frameworks/full-stack/nextjs)** - Deployment platform
-- **[Anchor Local Development](https://www.anchor-lang.com/docs/quickstart/local)** - Smart contract development
+## Project Structure
 
-## Security & Privacy
+```
+├── src/
+│   ├── app/                 # Next.js app router pages
+│   ├── components/          # Reusable UI components
+│   │   ├── account/         # Wallet-related components
+│   │   ├── ui/              # Basic UI components
+│   │   └── ...
+│   └── lib/                 # Utilities and configurations
+└── anchor/
+    ├── programs/            # Solana programs (Rust)
+    └── src/                 # Generated TypeScript client
+```
 
-- **No private key storage** - Wallet connect requests signatures only
-- **User address handling** - Public on-chain data treated with privacy considerations
-- **Data export/deletion** - Users can export and delete their tracked addresses
-- **API key protection** - Server-only usage with quarterly rotation
+## Learning Objectives
 
-## Risk Mitigation
+This project helps you learn:
+- **Anchor Basics** - Writing simple Solana programs
+- **Frontend Integration** - Connecting React to blockchain
+- **Wallet Connection** - Using Solana Wallet Adapter
+- **Data Fetching** - Getting wallet and token information
+- **UI Development** - Building clean, responsive interfaces
 
-- **Helius rate limits**: Implement caching, event aggregation, prefer webhooks over polling
-- **Real-time expectations**: Document SLAs and show "last updated" timestamps
-- **Parser maintenance**: Rely on Helius enhanced transactions to reduce maintenance burden
+## Development Commands
 
-## Support
+```bash
+# Development
+pnpm dev                    # Start development server
 
-For questions or issues, please refer to the documentation or create an issue in the project repository.
+# Anchor Development
+cd anchor
+pnpm anchor keys sync       # Sync program keys
+pnpm anchor-build          # Build the program
+pnpm anchor-localnet       # Start local Solana validator
+pnpm anchor-test           # Run tests
+
+# Production
+pnpm build                 # Build for production
+pnpm start                 # Start production server
+```
+
+## Key Components
+
+### Wallet Connection
+- Uses `@solana/wallet-adapter` for easy wallet integration
+- Supports multiple wallet providers
+- Clean connection status UI
+
+### Account Display
+- Shows wallet address and basic info
+- Displays SOL balance prominently
+- Lists all token holdings
+
+### Token Management
+- Fetches and displays SPL tokens
+- Shows token balances and metadata
+- Clean token list interface
+
+## No Backend Needed!
+
+This project demonstrates how to build useful Solana applications using:
+- **Client-side data fetching** - Direct RPC calls
+- **Anchor programs** - For any smart contract needs
+- **Local development** - Anchor's localnet for testing
+- **Frontend state management** - React hooks and context
+
+## Tips for Beginners
+
+1. **Start with wallet connection** - Get this working first
+2. **Use localnet for testing** - No need for devnet initially
+3. **Focus on one feature at a time** - Build incrementally
+4. **Use the Anchor TypeScript client** - It's generated for you
+5. **Test with small amounts** - Use devnet when ready for real testing
+
+## Contributing
+
+This is a learning project, so feel free to:
+- Add new dashboard features
+- Improve the UI/UX
+- Add educational comments
+- Fix bugs or optimize code
+
+## License
+
+MIT License - feel free to use for your own learning projects!
+
+## Next Steps
+
+After getting comfortable with this dashboard, you might want to explore:
+- Adding token swap functionality
+- Portfolio tracking with price data
+- NFT marketplace features
+- DeFi protocol integration
+
+But for now, focus on mastering the basics with this simple, clean wallet dashboard! 🚀
