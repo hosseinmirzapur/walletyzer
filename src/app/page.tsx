@@ -1,5 +1,13 @@
-import { DashboardFeature } from '@/components/dashboard/dashboard-feature'
+import Features from '@/components/walletyzer/features'
+import Hero from '@/components/walletyzer/hero'
+import Navigation from '@/components/walletyzer/navigation'
 
 export default function Home() {
-  return <DashboardFeature />
+  return (
+    <div className="min-h-screen">
+      <Navigation />
+      <Hero />
+      <Features />
+    </div>
+  )
 }
