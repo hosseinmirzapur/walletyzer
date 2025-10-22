@@ -11,8 +11,27 @@ import { toast } from 'sonner'
 import { useWallet } from '@solana/wallet-adapter-react'
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui'
 
+import { useAtom } from 'jotai'
+import { selectedNetworkAtom, customRpcAtom, clusterAtom } from '@/lib/network-store'
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
+
+import { Input } from '@/components/ui/input'
+
 const DashboardContainer = () => {
   const { connected, publicKey } = useWallet()
+
+  const [selectedNetwork, setSelectedNetwork] = useAtom(selectedNetworkAtom)
+
+  const [customRpc, setCustomRpc] = useAtom(customRpcAtom)
+
+  const [cluster] = useAtom(clusterAtom)
 
   const copyAddress = () => {
     if (!publicKey) return
@@ -20,6 +39,13 @@ const DashboardContainer = () => {
     toast.success('Address copied!', {
       description: 'Wallet address copied to clipboard',
     })
+  }
+
+  const openAddressOnExplorer = () => {
+    if (!publicKey) return
+    const walletAddress = publicKey.toBase58()
+    const explorerUrl = `https://explorer.solana.com/address/${walletAddress}?cluster=${cluster}`
+    window.open(explorerUrl, '_blank')
   }
 
   return (
@@ -45,14 +71,36 @@ const DashboardContainer = () => {
                   <Button size="sm" variant="ghost" onClick={copyAddress} className="h-6 w-6 p-0">
                     <Copy className="w-3 h-3" />
                   </Button>
-                  <Button size="sm" variant="ghost" className="h-6 w-6 p-0">
+                  <Button size="sm" variant="ghost" className="h-6 w-6 p-0" onClick={openAddressOnExplorer}>
                     <ExternalLink className="w-3 h-3" />
                   </Button>
                 </div>
-                <div className="glass-card px-4 py-2 rounded-lg">
-                  <span className="text-xs text-muted-foreground">Network:</span>
-                  <span className="ml-2 text-sm font-semibold text-green-400">Mainnet</span>
-                </div>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <div className="glass-card px-4 py-2 rounded-lg cursor-pointer">
+                      Network:{' '}
+                      {selectedNetwork === 'custom'
+                        ? 'Custom'
+                        : selectedNetwork.charAt(0).toUpperCase() + selectedNetwork.slice(1)}
+                    </div>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <DropdownMenuItem onClick={() => setSelectedNetwork('mainnet')}>Mainnet</DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => setSelectedNetwork('devnet')}>Devnet</DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => setSelectedNetwork('testnet')}>Testnet</DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <div className="p-2">
+                      <Input
+                        placeholder="Custom RPC URL"
+                        value={customRpc}
+                        onChange={(e) => setCustomRpc(e.target.value)}
+                      />
+                      <Button size="sm" onClick={() => setSelectedNetwork('custom')} className="mt-1">
+                        Set Custom
+                      </Button>
+                    </div>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </>
             ) : (
               <WalletMultiButton />
