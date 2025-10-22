@@ -23,14 +23,29 @@ import {
 } from '@/components/ui/dropdown-menu'
 
 import { Input } from '@/components/ui/input'
+import { useEffect, useState } from 'react'
+import { Asset } from 'helius-sdk/types/das'
 
 const DashboardContainer = () => {
+  const [walletData, setWalletData] = useState<{
+    solBalance: number
+    tokens: Asset[]
+    nfts: Asset[]
+    tokensCount: number
+    nftCount: number
+    grandTotal: number
+  }>({
+    nftCount: 0,
+    nfts: [],
+    solBalance: 0,
+    tokens: [],
+    tokensCount: 0,
+    grandTotal: 0,
+  })
   const { connected, publicKey } = useWallet()
 
   const [selectedNetwork, setSelectedNetwork] = useAtom(selectedNetworkAtom)
-
   const [customRpc, setCustomRpc] = useAtom(customRpcAtom)
-
   const [cluster] = useAtom(clusterAtom)
 
   const copyAddress = () => {
@@ -47,6 +62,35 @@ const DashboardContainer = () => {
     const explorerUrl = `https://explorer.solana.com/address/${walletAddress}?cluster=${cluster}`
     window.open(explorerUrl, '_blank')
   }
+
+  const fetchAllOwnerAssets = async (network: string, walletAddress: string) => {
+    if (!connected) return
+    try {
+      const response = await fetch(`/api/helius?network=${network}&walletAddress=${walletAddress}`)
+      if (!response.ok) {
+        throw new Error('Failed to fetch wallet data')
+      }
+      const parsedData = await response.json()
+      setWalletData(parsedData)
+    } catch (error) {
+      console.error(error)
+      toast.error('Failed to fetch wallet data', {
+        description: 'There was an error loading your wallet information.',
+      })
+      setWalletData({
+        nftCount: 0,
+        nfts: [],
+        solBalance: 0,
+        tokens: [],
+        tokensCount: 0,
+        grandTotal: 0,
+      })
+    }
+  }
+
+  useEffect(() => {
+    fetchAllOwnerAssets(selectedNetwork, publicKey?.toBase58() || '')
+  }, [selectedNetwork, publicKey, connected])
 
   return (
     <div className="min-h-screen">
@@ -110,11 +154,11 @@ const DashboardContainer = () => {
 
         {connected && (
           <div className="space-y-8">
-            <WalletStats />
+            <WalletStats stat={walletData} />
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              <TokenList />
-              <NFTGallery />
+              <TokenList tokens={walletData.tokens} />
+              <NFTGallery nfts={walletData.nfts} />
             </div>
           </div>
         )}
