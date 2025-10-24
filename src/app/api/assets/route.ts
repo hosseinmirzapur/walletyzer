@@ -1,7 +1,16 @@
 import { helius } from '@/lib/helius'
 import { GetAssetResponseList } from 'helius-sdk/types/das'
+import { checkRateLimit, getClientIP } from '@/app/utils/rate-limit'
 
 export async function GET(req: Request) {
+  const ip = getClientIP(req)
+
+  // Check rate limit
+  const isAllowed = await checkRateLimit(ip)
+  if (!isAllowed) {
+    return Response.json({ error: 'Rate limit exceeded. Please try again later.' }, { status: 429 })
+  }
+
   const { searchParams } = new URL(req.url)
   const network = searchParams.get('network')
   const walletAddress = searchParams.get('walletAddress')
@@ -23,7 +32,6 @@ export async function GET(req: Request) {
       limit: parseInt(limit || '50', 10),
       displayOptions: {
         showCollectionMetadata: true,
-        showGrandTotal: true,
         showNativeBalance: true,
         showZeroBalance: false,
       },
